@@ -11,13 +11,14 @@ export const receiptCreate=async(req,res)=>{
        }
        const {serviceId}=req.params
 
-       const service =await serviceModel.findOne({_id:serviceId})
+       const service =await serviceModel.findOne({_id:serviceId}).populate('hotel')
        if(!service){
         return  res.status(404).json({message:"service not found"})
        }
        const receipt=await receiptModel.create({
         type:service.type,
         service:service._id,
+        hotelName:service.hotel.name ||service.hotel.email,
         buyer:user._id,
         price:service.price,
         details:service.details
@@ -44,7 +45,7 @@ export const receiptAll=async(req,res)=>{
         if(!user){
          return  res.status(404).json({message:"user not found"})
         }
-        const receipts= await receiptModel.find({buyer:user._id});
+        const receipts= await receiptModel.find({buyer:user._id}).populate('service');
         if(!receipts){
             return  res.status(404).json({message:"receipt not found"})
            }
@@ -67,13 +68,16 @@ export const receiptById=async(req,res)=>{
     }
 }
 
-export const receiptDelete=async(req,res)=>{
+export const receiptPay=async(req,res)=>{
     try{     const {id}=req.params
-    const receipt= await receiptModel.findOneAndDelete({_id:id})
+    const receipt= await receiptModel.findOne({_id:id})
     if(!receipt){
         return  res.status(404).json({message:"receipt  by id not found"})
+
     }
-        res.status(200).json({message:"receipt  deleted",receipt})
+    receipt.paid=true;
+    await receipt.save();
+        res.status(200).json({message:" payment done receipt ",receipt})
        
     }catch(error){
         res.status(500).json({message:"internal server error",error})

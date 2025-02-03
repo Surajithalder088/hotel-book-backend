@@ -54,7 +54,7 @@ export const login=async (req,res)=>{
             httpOnly:true,
             secure:false,
             maxAge:60*60*24,
-        }).json({message:" user loggedin",token})
+        }).json({message:" user loggedin",token,existingUser})
 
 
     }catch(error){
@@ -65,12 +65,16 @@ export const login=async (req,res)=>{
 }
 
 export const profile=async (req,res)=>{
-
-    const user=req.user ||"hhhhhh"
-    const authUser= await customerModel.findOne({email:user.email})
+  try{ const user=req.user ||"hhhhhh"
+    const authUser= await customerModel.findOne({email:user.email}).populate('receipt')
     if(!authUser){
         return res.status(400).json({message:" user not find"})
      }
     res.status(200).json({authUser:authUser})
+
+  }catch(error){
+    res.status(500).json({message:"internal server error",error})
+  }
+   
     
 }

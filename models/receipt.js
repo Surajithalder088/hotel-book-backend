@@ -5,10 +5,19 @@ const receiptSchema= new mongoose.Schema({
         type:String,
         require:true,
       },
-      service:{
+      paid:{
+        type:Boolean,
+        default:false,
+        required:true
+      },
+      serviceId:{
          type:mongoose.Schema.Types.ObjectId,
          ref:"service",
         require:true
+      },
+      hotelName:{
+        type:String,
+        required:true
       },
       buyer:{
         type:mongoose.Schema.Types.ObjectId,

@@ -5,7 +5,7 @@ import serviceModel from "../models/service.js";
 
 export const allServices=async(req,res)=>{
    try{
-      const allServices= await serviceModel.find()
+      const allServices= await serviceModel.find().populate('hotel')
       if(!allServices){
         return res.status(500).json({message:"No services available"})
       }
@@ -17,7 +17,7 @@ export const allServices=async(req,res)=>{
 export const serviceById=async(req,res)=>{
     try{
       const {id}=req.params
-      const service= await serviceModel.findById(id)
+      const service= await serviceModel.findById(id).populate('hotel')
       if(!service){
        return  res.status(400).json({message:"service not found"})
       }
