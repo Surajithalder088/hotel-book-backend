@@ -6,7 +6,7 @@ import "dotenv/config.js"
 
 
 export const register=async (req,res)=>{
-    const {email,password}=req.body;
+    const {name,email,password}=req.body;
     if(!email || !password){
         return res.status(400).json({message:"all field required"})
     }
@@ -16,7 +16,7 @@ export const register=async (req,res)=>{
             return res.status(400).json({message:"user already exist"})
         }
         const hashPassword= await bcrypt.hash(password,10)
-        const newUser= await customerModel.create({email,password:hashPassword})
+        const newUser= await customerModel.create({name,email,password:hashPassword})
         const token=jwt.sign({email:newUser.email},process.env.JWT_SECRET,{expiresIn:'24h'})
         
        
