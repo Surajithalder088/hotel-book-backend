@@ -1,6 +1,7 @@
 import serviceModel from "../models/service.js";
 import customerModel from "../models/customer.js";
 import receiptModel from "../models/receipt.js";
+import receipt from "../models/receipt.js";
 
 export const receiptCreate=async(req,res)=>{
     try{
@@ -17,7 +18,7 @@ export const receiptCreate=async(req,res)=>{
        }
        const receipt=await receiptModel.create({
         type:service.type,
-        service:service._id,
+        serviceId:service._id,
         hotelName:service.hotel.name ||service.hotel.email,
         buyer:user._id,
         price:service.price,
@@ -45,10 +46,11 @@ export const receiptAll=async(req,res)=>{
         if(!user){
          return  res.status(404).json({message:"user not found"})
         }
-        const receipts= await receiptModel.find({buyer:user._id}).populate('service');
+        const receipts= await receiptModel.find({buyer:user._id})
         if(!receipts){
             return  res.status(404).json({message:"receipt not found"})
            }
+           
             res.status(200).json({message:"receipt all found",receipts})
     }catch(error){
         res.status(500).json({message:"internal server error",error})
@@ -62,7 +64,9 @@ export const receiptById=async(req,res)=>{
         if(!receipt){
             return  res.status(404).json({message:"receipt  by id not found"})
         }
-            res.status(200).json({message:"receipt  by id found",receipt})
+        const serviceid=receipt.serviceId;
+        const service=await serviceModel.findOne({_id:serviceid}).populate('hotel')
+            res.status(200).json({message:"receipt  by id found",receipt,service})
     }catch(error){
         res.status(500).json({message:"internal server error",error})
     }

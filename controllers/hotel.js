@@ -1,4 +1,5 @@
 import hotelModel from "../models/hotel.js"
+import serviceModel from "../models/service.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import "dotenv/config.js"
@@ -23,7 +24,7 @@ export const register=async (req,res)=>{
         res.status(201).cookie('token',token,{
             httpOnly:true,
             secure:false,
-            maxAge:60*60*24,
+            maxAge:60*60*24*1000,
         }).json({message:"new customer created ",newUser,token})
 
 
@@ -53,7 +54,7 @@ export const login=async (req,res)=>{
         res.status(200).cookie('token',token,{
             httpOnly:true,
             secure:false,
-            maxAge:60*60*24,
+            maxAge:60*60*24*1000,
         }).json({message:" user loggedin",token})
 
 
@@ -67,10 +68,20 @@ export const login=async (req,res)=>{
 export const profile=async (req,res)=>{
 
     const user=req.user ||"hhhhhh"
-    const authUser= await hotelModel.findOne({email:user.email})
+    try{
+const authUser= await hotelModel.findOne({email:user.email})
     if(!authUser){
         return res.status(400).json({message:" user not find"})
      }
-    res.status(200).json({authUser:authUser})
+
+     const services=await serviceModel.find({hotel:authUser._id})
+     if(!services){
+        return res.status(400).json({message:" service not find"})
+     }
+    res.status(200).json({authUser:authUser,services})
+    }catch(error){
+        res.status(500).json({message:"internal server error",error})
+    }
+    
     
 }
