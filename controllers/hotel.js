@@ -85,3 +85,25 @@ const authUser= await hotelModel.findOne({email:user.email})
     
     
 }
+
+
+export const hotelById=async (req,res)=>{
+
+    const {id}=req.params ||"hhhhhh"
+    try{
+const hotel= await hotelModel.findOne({_id:id})
+    if(!hotel){
+        return res.status(400).json({message:" user not find"})
+     }
+
+     const services=await serviceModel.find({hotel:hotel._id})
+     if(!services){
+        return res.status(400).json({message:" service not find"})
+     }
+    res.status(200).json({hotel:hotel,services})
+    }catch(error){
+        res.status(500).json({message:"internal server error",error})
+    }
+    
+    
+}
