@@ -10,6 +10,11 @@ const receiptSchema= new mongoose.Schema({
         default:false,
         required:true
       },
+      reviewed:{
+        type:Boolean,
+        default:false,
+        required:true
+      },
       serviceId:{
          type:mongoose.Schema.Types.ObjectId,
          ref:"service",

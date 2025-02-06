@@ -15,10 +15,19 @@ export const createReview=async(req,res)=>{
         if(!user){
          return  res.status(404).json({message:"user not found"})
         }
+        const receipt=await receiptModel.findOne({_id:receiptId})
+        if(!receipt){
+           return res.status(400).json({message:'no receipt exist'})
+        }
+        if(receipt.reviewed===true){
+            return res.status(400).json({message:'review already acccepted for this  receipt'})
+         }
         const newReview= await reviewModel.create({text,ratings,service:serviceid,receipt:receiptId,user:user._id})
         if(!newReview){
             return  res.status(400).json({message:"review not created"})
            }
+           receipt.reviewed=true;
+           await receipt.save();
 
            res.status(201).json({message:"review created",newReview})
 

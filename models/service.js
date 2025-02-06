@@ -5,6 +5,10 @@ const serviceSchema= new mongoose.Schema({
     type:String,
     require:true,
   },
+  name:{
+    type:String,
+    require:true
+  },
   hotel:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'hotel',
