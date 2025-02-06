@@ -36,7 +36,7 @@ export const reviewByService=async(req,res)=>{
         }
         
         
-        const reviews= await reviewModel.find({service:service._id})
+        const reviews= await reviewModel.find({service:service._id}).populate('customer')
         if(!reviews){
             return res.status(400).json({message:'no reviews of this service'})
          }
