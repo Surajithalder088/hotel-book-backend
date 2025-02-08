@@ -55,7 +55,7 @@ export const login=async (req,res)=>{
             httpOnly:true,
             secure:false,
             maxAge:60*60*24*1000,
-        }).json({message:" user loggedin",token})
+        }).json({message:" user loggedin",token,existingUser})
 
 
     }catch(error){

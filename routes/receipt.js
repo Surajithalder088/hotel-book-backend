@@ -10,6 +10,6 @@ const router= new express.Router;
 router.get('/receipt-create/:serviceId',verifyUser,receiptCreate)
 router.get('/receipt-all',verifyUser,receiptAll)
 router.get('/:id',verifyUser,receiptById)
-router.put('/receipt-pay/:id',verifyUser,receiptPay)
+router.get('/receipt-pay/:id',verifyUser,receiptPay)
 
 export default router
