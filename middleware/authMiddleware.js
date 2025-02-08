@@ -6,11 +6,13 @@ export const verifyUser =async(req,res,next)=>{
 
     try{
 const {token}=req.cookies;
+
+
     const user=jwt.verify(token,process.env.JWT_SECRET)
     if(!user){
        return res.status(400).json({message:" token not find"})
     }
-    console.log(user.email);
+  
   
     req.user=user;
 

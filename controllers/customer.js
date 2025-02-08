@@ -2,6 +2,7 @@ import customerModel from "../models/customer.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import "dotenv/config.js"
+import receiptModel from "../models/receipt.js"
 
 
 
@@ -53,8 +54,9 @@ export const login=async (req,res)=>{
         res.status(200).cookie('token',token,{
             httpOnly:true,
             secure:false,
+            sameSite:'lax',
             maxAge:60*60*24*1000,
-        }).json({message:" user loggedin",token,existingUser})
+        }).json({message:" user loggedin",existingUser})
 
 
     }catch(error){
@@ -66,11 +68,13 @@ export const login=async (req,res)=>{
 
 export const profile=async (req,res)=>{
   try{ const user=req.user ||"hhhhhh"
-    const authUser= await customerModel.findOne({email:user.email}).populate('receipt')
+    const authUser= await customerModel.findOne({email:user.email})
     if(!authUser){
         return res.status(400).json({message:" user not find"})
      }
-    res.status(200).json({authUser:authUser})
+     const receiptList=authUser.receipts;
+     const receipts= await receiptModel.find({_id:{$in:receiptList}}).sort({createdAt:-1})
+    res.status(200).json({authUser:authUser,receipts})
 
   }catch(error){
     res.status(500).json({message:"internal server error",error})

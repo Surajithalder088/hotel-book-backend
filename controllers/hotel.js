@@ -89,14 +89,17 @@ const authUser= await hotelModel.findOne({email:user.email})
 
 export const hotelById=async (req,res)=>{
 
-    const {id}=req.params ||"hhhhhh"
+    const {id}=req.params 
+    
+    
     try{
 const hotel= await hotelModel.findOne({_id:id})
     if(!hotel){
-        return res.status(400).json({message:" user not find"})
+        return res.status(400).json({message:"hotel not find"})
      }
-
-     const services=await serviceModel.find({hotel:hotel._id})
+     
+     
+     const services=await serviceModel.find({hotel:hotel._id}).sort({createdAt:-1})
      if(!services){
         return res.status(400).json({message:" service not find"})
      }

@@ -7,6 +7,8 @@ export const receiptCreate=async(req,res)=>{
     try{
         const userEmail=req.user.email
        const user =await customerModel.findOne({email:userEmail})
+      
+       
        if(!user){
         return  res.status(404).json({message:"user not found"})
        }
@@ -19,7 +21,7 @@ export const receiptCreate=async(req,res)=>{
        const receipt=await receiptModel.create({
         type:service.type,
         serviceId:service._id,
-        hotelName:service.hotel.name ||service.hotel.email,
+        hotelName:service.hotel.email,
         buyer:user._id,
         price:service.price,
         details:service.details
