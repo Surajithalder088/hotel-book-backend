@@ -74,6 +74,12 @@ export const serviceById=async(req,res)=>{
       if(!service){
         return res.status(400).json({message:"No service found"})
       }
+      const hotel=await hotelModel.findById(service.hotel)
+      if(!hotel){
+        return res.status(400).json({message:"No service found"})
+      }
+      hotel.services.pull(id);
+      await hotel.save();
      res.status(200).json({message:" service deleted",service})
     }catch(error){
      res.status(500).json({message:"internal server error",error})
