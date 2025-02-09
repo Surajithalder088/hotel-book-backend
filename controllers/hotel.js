@@ -1,5 +1,6 @@
 import hotelModel from "../models/hotel.js"
 import serviceModel from "../models/service.js"
+import receiptModel from "../models/receipt.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import "dotenv/config.js"
@@ -67,18 +68,26 @@ export const login=async (req,res)=>{
 
 export const profile=async (req,res)=>{
 
-    const user=req.user ||"hhhhhh"
+    const {id}=req.params
+   
+    
     try{
-const authUser= await hotelModel.findOne({email:user.email})
+const authUser= await hotelModel.findOne({_id:id})
     if(!authUser){
         return res.status(400).json({message:" user not find"})
-     }
+     } 
 
      const services=await serviceModel.find({hotel:authUser._id})
      if(!services){
         return res.status(400).json({message:" service not find"})
      }
-    res.status(200).json({authUser:authUser,services})
+
+     const receipts=await receiptModel.find({hotelName:authUser.email})
+     if(!receipts){
+        return res.status(400).json({message:" receipts not find"})
+     }
+   
+    res.status(200).json({authUser:authUser,receipts,services})
     }catch(error){
         res.status(500).json({message:"internal server error",error})
     }
