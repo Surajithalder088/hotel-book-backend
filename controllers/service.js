@@ -33,11 +33,11 @@ export const serviceById=async(req,res)=>{
       if(!hotel){
         return res.status(400).json({message:"hotel not valid"})
       }
-      const {type,price,details,name}=req.body;
-      if(!type || !price || !details){
+      const {type,price,details,name,itemType}=req.body;
+      if(!type || !price || !details ||!itemType){
          return res.status(400).json({message:"all field are required"})
        }
-      const newService= await serviceModel.create({type,name,price,details,hotel:hotelId})
+      const newService= await serviceModel.create({type,name,itemType,price,details,hotel:hotelId})
       hotel.services.push(newService._id);
       await hotel.save()
 

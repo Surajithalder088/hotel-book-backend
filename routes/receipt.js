@@ -7,7 +7,7 @@ const router= new express.Router;
 
 //no request from body is required,only data via params is enough to run the controllers
 
-router.get('/receipt-create/:serviceId',verifyUser,receiptCreate)
+router.get('/receipt-create/:hotelId',verifyUser,receiptCreate)
 router.get('/receipt-all',verifyUser,receiptAll)
 router.get('/:id',verifyUser,receiptById)
 router.get('/receipt-pay/:id',verifyUser,receiptPay)

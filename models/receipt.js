@@ -15,14 +15,15 @@ const receiptSchema= new mongoose.Schema({
         default:false,
         required:true
       },
-      serviceId:{
+      serviceId:[{
          type:mongoose.Schema.Types.ObjectId,
          ref:"service",
-        require:true
-      },
+       
+      }],
       hotelName:{
-        type:String,
-        required:true
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"hotel",
+      
       },
       buyer:{
         type:mongoose.Schema.Types.ObjectId,
@@ -33,10 +34,10 @@ const receiptSchema= new mongoose.Schema({
         type:Number,
         require:true
       },
-      details:{
+      details:[{
         type:String,
-        require:true
-      }
+        
+      }]
 },{timestamps:true})
 
 

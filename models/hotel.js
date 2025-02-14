@@ -15,6 +15,12 @@ const hotelSchema= new mongoose.Schema({
     type:String,
     require:true
   },
+  address:{
+    type:String,
+  },
+  image:{
+    type:String
+  },
   services:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:'service'

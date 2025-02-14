@@ -82,7 +82,7 @@ const authUser= await hotelModel.findOne({_id:id})
         return res.status(400).json({message:" service not find"})
      }
 
-     const receipts=await receiptModel.find({hotelName:authUser.email})
+     const receipts=await receiptModel.find({hotelName:authUser.email}).sort({createdAt:-1})
      if(!receipts){
         return res.status(400).json({message:" receipts not find"})
      }
@@ -118,4 +118,38 @@ const hotel= await hotelModel.findOne({_id:id})
     }
     
     
+}
+
+
+export const hotelAll=async(req,res)=>{
+    try{
+        const hotels= await hotelModel.find().sort({createdAt:-1}).populate('services')
+        if(! hotels){
+          return  res.status(404).json({message:"Failed to gethotel lists"})
+        }
+        res.status(200).json({message:"List of all hotel registered",hotels})
+
+    }catch(error){
+        res.status(500).json({message:"Internal server error",error})
+    }
+}
+
+export const edit=async(req,res)=>{
+    const {id}=req.params 
+    try{
+        const {image,address}=req.body
+        const hotel= await hotelModel.findByIdAndUpdate({_id:id},{image,address})
+    if(!hotel){
+        return res.status(400).json({message:"hotel not find"})
+     }
+    
+     hotel.image=image;
+     hotel.address=address;
+     await hotel.save()
+     res.status(200).json({message:"hotel updated",hotel})
+
+    }catch(error){
+        res.status(500).json({message:"Intenal server error",error})
+    }
+
 }

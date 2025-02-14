@@ -5,6 +5,9 @@ const serviceSchema= new mongoose.Schema({
     type:String,
     require:true,
   },
+  itemType:{
+    type:String
+  },
   name:{
     type:String,
     require:true

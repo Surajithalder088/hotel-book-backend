@@ -1,6 +1,7 @@
 import serviceModel from "../models/service.js";
 import customerModel from "../models/customer.js";
 import receiptModel from "../models/receipt.js";
+import hotelModel from '../models/hotel.js'
 import receipt from "../models/receipt.js";
 
 export const receiptCreate=async(req,res)=>{
@@ -12,19 +13,20 @@ export const receiptCreate=async(req,res)=>{
        if(!user){
         return  res.status(404).json({message:"user not found"})
        }
-       const {serviceId}=req.params
+       const {hotelId}=req.params
+       const {type,price,services,details}=req.body // services and details are array data type
 
-       const service =await serviceModel.findOne({_id:serviceId}).populate('hotel')
-       if(!service){
-        return  res.status(404).json({message:"service not found"})
+       const hotel =await hotelModel.findOne({_id:hotelId}).populate('services')
+       if(!hotel){
+        return  res.status(404).json({message:"hotel not found"})
        }
        const receipt=await receiptModel.create({
-        type:service.type,
-        serviceId:service._id,
-        hotelName:service.hotel.email,
+        type:type,
+        serviceId:services,
+        hotelName:hotel._id,
         buyer:user._id,
-        price:service.price,
-        details:service.details
+        price:price,
+        details:details
     })
     if(!receipt){
         return  res.status(400).json({message:"failed to generate new receipt"})
