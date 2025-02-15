@@ -123,7 +123,7 @@ const hotel= await hotelModel.findOne({_id:id})
 
 export const hotelAll=async(req,res)=>{
     try{
-        const hotels= await hotelModel.find().sort({createdAt:-1}).populate('services')
+        const hotels= await hotelModel.find().sort({ updatedAt:-1}).populate('services')
         if(! hotels){
           return  res.status(404).json({message:"Failed to gethotel lists"})
         }

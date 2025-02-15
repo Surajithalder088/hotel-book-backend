@@ -5,10 +5,10 @@ const reviewSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
            ref:'customer'
     },
-    service:{
+    service:[{
          type:mongoose.Schema.Types.ObjectId,
             ref:'service'
-    },
+    }],
     receipt:{
          type:mongoose.Schema.Types.ObjectId,
             ref:'receipt'

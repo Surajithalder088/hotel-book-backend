@@ -28,6 +28,10 @@ const serviceSchema= new mongoose.Schema({
   details:{
     type:String,
     require:true
+  },
+  more:{
+    type:String,
+    default:"more about this service"
   }
 },{timestamps:true})
 
