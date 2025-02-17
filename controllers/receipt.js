@@ -2,20 +2,23 @@ import serviceModel from "../models/service.js";
 import customerModel from "../models/customer.js";
 import receiptModel from "../models/receipt.js";
 import hotelModel from '../models/hotel.js'
-import receipt from "../models/receipt.js";
+
+
 
 export const receiptCreate=async(req,res)=>{
     try{
-        const userEmail=req.user.email
+        
+      
+       
+       const {hotelId}=req.params
+       const {userEmail,type,price,services,details}=req.body // services and details are array data type
+
        const user =await customerModel.findOne({email:userEmail})
       
        
        if(!user){
         return  res.status(404).json({message:"user not found"})
        }
-       const {hotelId}=req.params
-       const {type,price,services,details}=req.body // services and details are array data type
-
        const hotel =await hotelModel.findOne({_id:hotelId})
        if(!hotel){
         return  res.status(404).json({message:"hotel not found"})
