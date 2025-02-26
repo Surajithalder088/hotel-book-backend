@@ -71,6 +71,7 @@ export const profile=async (req,res)=>{
     const {id}=req.params
    
     
+    
     try{
 const authUser= await hotelModel.findOne({_id:id})
     if(!authUser){
@@ -82,7 +83,7 @@ const authUser= await hotelModel.findOne({_id:id})
         return res.status(400).json({message:" service not find"})
      }
 
-     const receipts=await receiptModel.find({hotelName:authUser.email}).sort({createdAt:-1})
+     const receipts=await receiptModel.find({hotelName:authUser._id}).sort({createdAt:-1})
      if(!receipts){
         return res.status(400).json({message:" receipts not find"})
      }

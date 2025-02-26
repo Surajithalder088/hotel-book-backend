@@ -21,6 +21,14 @@ const hotelSchema= new mongoose.Schema({
   image:{
     type:String
   },
+  starValue:{
+    type:Number,
+    default:0
+},
+starQunatity:{
+ type:Number,
+ default:0
+},
   services:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:'service'

@@ -22,6 +22,13 @@ export const createReview=async(req,res)=>{
         if(receipt.reviewed===true){
             return res.status(400).json({message:'review already acccepted for this  receipt'})
          }
+         const hotel =await hotelModel.findOne({_id:receipt.hotelName})
+         if(!hotel){
+            return  res.status(404).json({message:"hotel not found "})
+           }
+           hotel.starValue +=ratings
+           hotel.starQunatity +=1
+            await hotel.save()
         const newReview= await reviewModel.create({text,ratings,service:serviceid,receipt:receiptId,user:user._id})
         if(!newReview){
             return  res.status(400).json({message:"review not created"})

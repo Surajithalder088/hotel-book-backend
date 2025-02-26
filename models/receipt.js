@@ -25,6 +25,9 @@ const receiptSchema= new mongoose.Schema({
         ref:"hotel",
       
       },
+      hotelEmail:{
+      type:String
+      },
       buyer:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"customer",
