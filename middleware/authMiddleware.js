@@ -5,10 +5,10 @@ import "dotenv/config.js"
 export const verifyUser =async(req,res,next)=>{
 
     try{
-const {token}=req.cookies;
+const {sito_token}=req.cookies;
 
 
-    const user=jwt.verify(token,process.env.JWT_SECRET)
+    const user=jwt.verify(sito_token,process.env.JWT_SECRET)
     if(!user){
        return res.status(400).json({message:" token not find"})
     }

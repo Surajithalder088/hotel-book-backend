@@ -22,9 +22,10 @@ export const register=async (req,res)=>{
         const token=jwt.sign({email:newUser.email},process.env.JWT_SECRET,{expiresIn:'24h'})
         
        
-        res.status(201).cookie('token',token,{
+        res.status(201).cookie('sito_token',token,{
             httpOnly:true,
-            secure:false,
+            secure:true,
+            sameSite:"None",
             maxAge:60*60*24*1000,
         }).json({message:"new customer created ",newUser,token})
 
@@ -52,9 +53,10 @@ export const login=async (req,res)=>{
         const token=jwt.sign({email:existingUser.email},process.env.JWT_SECRET,{expiresIn:'24h'})
         
        
-        res.status(200).cookie('token',token,{
+        res.status(200).cookie('sito_token',token,{
             httpOnly:true,
-            secure:false,
+            secure:true,
+            sameSite:"None",
             maxAge:60*60*24*1000,
         }).json({message:" user loggedin",token,existingUser})
 
