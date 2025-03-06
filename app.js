@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use(cors({
-    origin:["https://sito-henna.vercel.app/","http://localhost:3000",],
+    origin:"https://sito-henna.vercel.app",
     credentials:true,
     methods:"GET,POST,PUT,DELETE"
 }))
