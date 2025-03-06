@@ -53,13 +53,14 @@ export const serviceById=async(req,res)=>{
       if(!service){
         return res.status(400).json({message:"No service found"})
       }
-      const {price,details,name}=req.body
+      const {price,details,name,image}=req.body
       if(!price || !details){
          return res.status(400).json({message:" all fiels must be filled"})
        }
       service.price=price
       service.name=name
       service.details=details
+      service.image=image
       await service.save()
      res.status(200).json({message:" service updated",service})
     }catch(error){

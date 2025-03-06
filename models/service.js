@@ -5,8 +5,12 @@ const serviceSchema= new mongoose.Schema({
     type:String,
     require:true,
   },
-  itemType:{
+  image:{
     type:String
+  },
+  itemType:{
+    type:String,
+    default:"image"
   },
   name:{
     type:String,
