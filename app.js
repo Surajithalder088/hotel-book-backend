@@ -20,7 +20,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use(cors({
-    origin:["https://sito-hotel-service.vercel.app/"], // while production there willl be only one route
+    origin:["https://sito-hotel-service.vercel.app"], // while production there willl be only one route
     credentials:true,
     methods:"GET,POST,PUT,DELETE"
 }))
