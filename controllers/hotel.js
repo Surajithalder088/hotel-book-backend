@@ -8,8 +8,8 @@ import "dotenv/config.js"
 
 
 export const register=async (req,res)=>{
-    const {name,email,password}=req.body;
-    if(!email || !password){
+    const {name,email,password,address}=req.body;
+    if(!email || !password ||!name ||!address){
         return res.status(400).json({message:"all field required"})
     }
     try{
@@ -18,7 +18,7 @@ export const register=async (req,res)=>{
             return res.status(400).json({message:"user already exist"})
         }
         const hashPassword= await bcrypt.hash(password,10)
-        const newUser= await hotelModel.create({name,email,password:hashPassword})
+        const newUser= await hotelModel.create({name,email,password:hashPassword,address,image:"image"})
         const token=jwt.sign({email:newUser.email},process.env.JWT_SECRET,{expiresIn:'24h'})
         
        

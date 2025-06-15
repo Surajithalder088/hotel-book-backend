@@ -10,6 +10,7 @@ import hotelRoute from "./routes/hotel.js"
 import serviceRoute from "./routes/service.js"
 import receiptRoute from "./routes/receipt.js"
 import reviewRoute from "./routes/review.js"
+import paymentRoutes from "./routes/payment.js"
 
 connectDB();
 
@@ -19,7 +20,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use(cors({
-    origin:"https://sito-hotel-service.vercel.app", // while production there willl be only one route
+    origin:["*","https://sito-henna.vercel.app","http://localhost:3000"], // while production there willl be only one route
     credentials:true,
     methods:"GET,POST,PUT,DELETE"
 }))
@@ -48,6 +49,7 @@ app.use('/api/hotel',hotelRoute)
 app.use('/api/service',serviceRoute)
 app.use('/api/receipt',receiptRoute)
 app.use('/api/review',reviewRoute)
+app.use('/api/payment',paymentRoutes)
 app.get("/",(req,res)=>{
     res.send(" working")
 })
