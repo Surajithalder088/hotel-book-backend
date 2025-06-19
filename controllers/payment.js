@@ -3,6 +3,7 @@ import crypto from"crypto"
 import { Cashfree } from "cashfree-pg"
 
 import "dotenv/config.js"
+import receipt from "../models/receipt.js"
 
 
 Cashfree.XClientId=process.env.CASHFREE_APP_ID
@@ -19,37 +20,38 @@ export const createOrder=async(req ,res)=>{
 
     try {
         const {orderId,amount,customer_name,customer_email,customer_phone}=req.body;
-        const orderData={
-            order_id:"order_"+Date.now(),
-            order_amount:10,
-            order_currency:"INR",
-            customer_details:{
-                customer_id:`${Date.now()}`,
-                customer_name:"test",
-                customer_email:"test@mail.com",
-                customer_phone:"9876543210",
-            },
-            order_meta:{
-                return_url:`http://localhost:3000/payment-success?order_id=${orderId}`,
-                payment_methods:"cc,dc,upi",
-            }
-        }
+        // const orderData={
+        //     order_id:orderId,
+        //     order_amount:amount,
+        //     order_currency:"INR",
+        //     customer_details:{
+        //         customer_id:`${Date.now()}`,
+        //         customer_name,
+        //         customer_email,
+        //         customer_phone,
+        //     },
+        //     order_meta:{
+        //         return_url:`http://localhost:3000/payment-success?order_id=${orderId}`,
+        //         payment_methods:"cc,dc,upi",
+        //     }
+        // }
        // console.log("order data",orderData);
         
-        const response= await axios.post(cashfreeapiurl,
-            orderData,{
-                headers:{
-                    "Content-Type":"application/json",
-                   "x-api-version":"2022-09-01",
-                   "x-client-id":cashfreeappid,
-                   "x-client-secret":cashfreesecretkey,
-                }
-            }
-        );
-        console.log("response",JSON.stringify(response.data));
+        // const response= await axios.post(cashfreeapiurl,
+        //     orderData,{
+        //         headers:{
+        //             "Content-Type":"application/json",
+        //            "x-api-version":"2022-09-01",
+        //            "x-client-id":cashfreeappid,
+        //            "x-client-secret":cashfreesecretkey,
+        //         }
+        //     }
+        // );
+        // console.log("response",JSON.stringify(response.data));
+        const response =await receipt.findByIdAndUpdate({_id:orderId},{paid:true})
         
 
-        res.status(200).json(response.data)
+        res.status(200).json(response)
     } catch (error) {
         console.log("api error",error.response?.data || error);
         
