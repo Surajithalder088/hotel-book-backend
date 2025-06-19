@@ -140,8 +140,8 @@ export const hotelAll=async(req,res)=>{
 export const edit=async(req,res)=>{
     const {id}=req.params 
     try{
-        const {image,address}=req.body
-        const hotel= await hotelModel.findByIdAndUpdate({_id:id},{image,address})
+        const {image,address,name}=req.body
+        const hotel= await hotelModel.findByIdAndUpdate({_id:id},{image,address,name})
     if(!hotel){
         return res.status(400).json({message:"hotel not find"})
      }
